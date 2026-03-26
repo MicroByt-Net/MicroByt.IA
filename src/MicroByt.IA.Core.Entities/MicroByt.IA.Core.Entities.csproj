@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Folder Include="AgentSkills\" />
+    <Folder Include="Api\OpenAI\" />
+    <Folder Include="Data\AI\" />
   </ItemGroup>
 
 </Project>
