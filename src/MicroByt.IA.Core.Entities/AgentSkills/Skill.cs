@@ -7,6 +7,7 @@ public class Skill
     public IReadOnlyList<string> RequiredTools { get; init; } = [];
     public IReadOnlyList<string> Instructions { get; init; } = [];
 
+    // TODO: clase temporal
     public static readonly Skill WebResearch = new()
     {
         Name = "web-research",
