@@ -15,6 +15,7 @@ public static class ApplicationServiceCollectionExtensions
         services.AddSingleton<IProviderChatClientFactory, ProviderChatClientFactory>();
         services.AddSingleton<IPromptsCollectionService, PromptsCollectionService>();
         services.AddScoped<ISkillsToolsCollectionService, SkillsToolsCollectionService>();
+        services.AddScoped<ISkillsAgentService, SkillsAgentService>();
 
         return services;
     }

@@ -41,8 +41,4 @@ Busca en la web comparativas entre Unity IAP y RevenueCat y mándame un resumen 
 
 ### Skills del sistema
 
-web-research: Investiga información en internet y prioriza fuentes útiles.
-comparison-summary: Compara varias opciones y produce una síntesis con pros y contras.
-delivery-summary: Empaqueta el resultado en un mensaje breve, claro y accionable.
-local-file-work: Trabaja con archivos locales para leer o generar contenido.
-general-reasoning: Skill genérica de razonamiento cuando no hay una skill especializada clara.
+{Skills}
