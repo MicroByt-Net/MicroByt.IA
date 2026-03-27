@@ -7,4 +7,7 @@ public interface ISkillsToolsCollectionService
 {
     /// <summary>Colección de skills disponibles. <see langword="null"/> si aún no se ha configurado ninguna.</summary>
     Skill[]? Skills { get; }
+
+    /// <summary>Establece la colección de skills disponibles.</summary>
+    void SetSkills(Skill[] skills);
 }
