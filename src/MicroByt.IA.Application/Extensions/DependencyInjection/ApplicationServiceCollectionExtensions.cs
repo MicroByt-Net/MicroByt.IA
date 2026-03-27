@@ -12,7 +12,8 @@ public static class ApplicationServiceCollectionExtensions
     /// <returns>La misma instancia de <see cref="IServiceCollection"/> para encadenar llamadas.</returns>
     public static IServiceCollection AddMicrobytIAApplication(this IServiceCollection services)
     {
-        services.AddSingleton<IProviderHttpClientFactory, ProviderHttpClientFactory>();
+        services.AddSingleton<IProviderChatClientFactory, ProviderChatClientFactory>();
+        services.AddScoped<ISkillsToolsCollectionService, SkillsToolsCollectionService>();
 
         return services;
     }
