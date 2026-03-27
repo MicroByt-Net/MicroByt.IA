@@ -13,6 +13,7 @@ public static class ApplicationServiceCollectionExtensions
     public static IServiceCollection AddMicrobytIAApplication(this IServiceCollection services)
     {
         services.AddSingleton<IProviderChatClientFactory, ProviderChatClientFactory>();
+        services.AddSingleton<IPromptsCollectionService, PromptsCollectionService>();
         services.AddScoped<ISkillsToolsCollectionService, SkillsToolsCollectionService>();
 
         return services;

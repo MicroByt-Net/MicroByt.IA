@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="MicroByt.AI.Core.Resources/MicroByt.AI.Core.Resources.csproj" />
   <Project Path="MicroByt.IA.Core.Application/MicroByt.IA.Core.Application.csproj" Id="e567e1f8-002b-4e0a-ad40-aeae57d0930c" />
   <Project Path="MicroByt.IA.Core.Entities/MicroByt.IA.Core.Entities.csproj" Id="370fa2ce-3c91-46c9-9299-cbe222323435" />
 </Solution>
