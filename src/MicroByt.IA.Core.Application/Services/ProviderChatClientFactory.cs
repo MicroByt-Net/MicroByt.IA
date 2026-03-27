@@ -1,10 +1,10 @@
 using System.ClientModel;
-using MicroByt.IA.Application.Interfaces;
+using MicroByt.IA.Core.Application.Interfaces;
 using MicroByt.IA.Core.Entities.Data.AI;
 using OpenAI;
 using OpenAI.Chat;
 
-namespace MicroByt.IA.Application.Services;
+namespace MicroByt.IA.Core.Application.Services;
 
 /// <summary>Implementación de <see cref="IProviderChatClientFactory"/> que crea <see cref="ChatClient"/> configurados para un <see cref="AIModel"/>.</summary>
 public class ProviderChatClientFactory : IProviderChatClientFactory

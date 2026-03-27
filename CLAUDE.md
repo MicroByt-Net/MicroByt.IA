@@ -60,12 +60,12 @@ New C# projects should be placed under `src/` and added to the solution.
 
 ### Servicios
 
-Cada vez que se cree una clase de servicio en `MicroByt.IA.Application.Services`, se deben seguir estos tres pasos obligatoriamente:
+Cada vez que se cree una clase de servicio en `MicroByt.IA.Core.Application.Services`, se deben seguir estos tres pasos obligatoriamente:
 
-1. **Crear la interfaz** correspondiente en `MicroByt.IA.Application.Interfaces` con el prefijo `I`:
+1. **Crear la interfaz** correspondiente en `MicroByt.IA.Core.Application.Interfaces` con el prefijo `I`:
 ```csharp
-   // MicroByt.IA.Application.Interfaces/IMyService.cs
-   namespace MicroByt.IA.Application.Interfaces;
+   // MicroByt.IA.Core.Application.Interfaces/IMyService.cs
+   namespace MicroByt.IA.Core.Application.Interfaces;
 
    public interface IMyService
    {
@@ -75,8 +75,8 @@ Cada vez que se cree una clase de servicio en `MicroByt.IA.Application.Services`
 
 2. **Implementar la interfaz** en la clase de servicio:
 ```csharp
-   // MicroByt.IA.Application.Services/MyService.cs
-   namespace MicroByt.IA.Application.Services;
+   // MicroByt.IA.Core.Application.Services/MyService.cs
+   namespace MicroByt.IA.Core.Application.Services;
 
    public class MyService : IMyService
    {

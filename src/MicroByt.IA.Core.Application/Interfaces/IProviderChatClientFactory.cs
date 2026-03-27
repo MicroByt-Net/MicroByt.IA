@@ -1,7 +1,7 @@
 using MicroByt.IA.Core.Entities.Data.AI;
 using OpenAI.Chat;
 
-namespace MicroByt.IA.Application.Interfaces;
+namespace MicroByt.IA.Core.Application.Interfaces;
 
 /// <summary>Fábrica para crear instancias de <see cref="ChatClient"/> configuradas según un <see cref="AIModel"/>.</summary>
 public interface IProviderChatClientFactory
