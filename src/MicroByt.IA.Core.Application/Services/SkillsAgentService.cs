@@ -1,6 +1,4 @@
 using System.Text;
-using System.Text.Json;
-using MicroByt.AI.Core.Common.Helpers;
 using MicroByt.IA.Core.Application.Interfaces;
 using MicroByt.IA.Core.Entities.AgentSkills;
 using MicroByt.IA.Core.Entities.Data.AI;
@@ -54,21 +52,12 @@ public class SkillsAgentService : ISkillsAgentService
                 responseBuilder.Append(part.Text);
         }
 
-        var response = JsonHelper.Deserialize<SelectSkillsResponse>(
-            responseBuilder.ToString(),
-            new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower });
-
-        if (response is null)
-            return null;
-
         var skillsByName = skills.ToDictionary(s => s.Name);
 
-        return response.SelectedSkills
-            .Select(s => skillsByName.GetValueOrDefault(s.Skill))
+        return responseBuilder.ToString()
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(line => skillsByName.GetValueOrDefault(line))
             .OfType<Skill>()
             .ToArray();
     }
-
-    private record SelectedSkill(string Skill);
-    private record SelectSkillsResponse(SelectedSkill[] SelectedSkills);
 }

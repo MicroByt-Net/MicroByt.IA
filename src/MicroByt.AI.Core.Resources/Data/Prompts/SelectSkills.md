@@ -7,32 +7,9 @@ Te proporcionaré dos elementos:
 
 Tu objetivo es **analizar la tarea y seleccionar los skills más relevantes y necesarios** para completarla.
 
-Debes responder **exclusivamente con un objeto JSON** válido, sin texto adicional fuera del JSON.
-
----
-
-## Estructura del JSON de respuesta
-
-```json
-{
-  "selected_skills": [
-    {
-      "skill": "nombre_del_skill",
-      "justification": "explicación breve de por qué es necesario"
-    }
-  ],
-  "sequence": [
-    {
-      "step": 1,
-      "skill": "nombre_del_skill",
-      "action": "qué se hace en este paso"
-    }
-  ],
-  "observations": {
-    "missing_skills": ["skill_faltante_1", "skill_faltante_2"],
-    "additional_notes": "consideraciones adicionales o contexto relevante"
-  }
-}
+Debes responder las skills seleccinada una por cada linea. Por ejemplo:
+comparison-summary
+general-reasoning
 
 ## Datos de entrada
 
