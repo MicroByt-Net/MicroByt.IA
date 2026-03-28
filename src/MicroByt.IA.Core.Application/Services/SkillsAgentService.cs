@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using MicroByt.AI.Core.Common.Helpers;
 using MicroByt.IA.Core.Application.Interfaces;
 using MicroByt.IA.Core.Entities.AgentSkills;
 using MicroByt.IA.Core.Entities.Data.AI;
@@ -53,7 +54,7 @@ public class SkillsAgentService : ISkillsAgentService
                 responseBuilder.Append(part.Text);
         }
 
-        var response = JsonSerializer.Deserialize<SelectSkillsResponse>(
+        var response = JsonHelper.Deserialize<SelectSkillsResponse>(
             responseBuilder.ToString(),
             new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower });
 

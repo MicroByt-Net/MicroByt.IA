@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MicroByt.AI.Core.Common\MicroByt.AI.Core.Common.csproj" />
     <ProjectReference Include="..\MicroByt.IA.Core.Entities\MicroByt.IA.Core.Entities.csproj" />
   </ItemGroup>
 
