@@ -27,7 +27,8 @@ public static class SelectSkillsSample
         var model = new AIModel
         {
             Provider = ollamaProvider,
-            Model = "deepseek-r1:32b",
+            //Model = "deepseek-r1:32b",
+            Model = "deepseek-r1:1.5b"
         };
 
         Skill[] skills =

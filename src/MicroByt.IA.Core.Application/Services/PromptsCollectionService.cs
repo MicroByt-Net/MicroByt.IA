@@ -23,6 +23,13 @@ public class PromptsCollectionService : IPromptsCollectionService
             return null;
 
         var content = File.ReadAllText(path);
+
+        if (content.StartsWith("# Prompt:"))
+        {
+            var newlineIndex = content.IndexOf('\n');
+            content = newlineIndex >= 0 ? content[(newlineIndex + 1)..] : string.Empty;
+        }
+
         _cache[promptName] = content;
         return content;
     }
