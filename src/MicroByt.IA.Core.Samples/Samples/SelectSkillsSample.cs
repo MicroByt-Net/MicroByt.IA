@@ -29,7 +29,8 @@ public static class SelectSkillsSample
             Provider = ollamaProvider,
             // Model = "deepseek-r1:32b",
             // Model = "deepseek-r1:1.5b"
-            Model = "qwen3",
+            // Model = "qwen3",
+            Model = "nemotron-3-nano:4b",
         };
 
         Skill[] skills =
