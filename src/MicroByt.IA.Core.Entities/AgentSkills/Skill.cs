@@ -12,10 +12,12 @@ public class Skill
     /// <summary>Nombres de las herramientas que esta skill necesita para operar.</summary>
     public IReadOnlyList<string> RequiredTools { get; init; } = [];
 
+    /// <summary>Propósito de la skill, usado para comunicar al agente el objetivo que debe cumplir al ejecutarla.</summary>
+    public string Purpose { get; init; } = string.Empty;
+
     /// <summary>Instrucciones de comportamiento que guían al agente durante la ejecución de esta skill.</summary>
     public IReadOnlyList<string> Instructions { get; init; } = [];
 
-    // TODO: clase temporal
     public static readonly Skill WebResearch = new()
     {
         Name = "web-research",
