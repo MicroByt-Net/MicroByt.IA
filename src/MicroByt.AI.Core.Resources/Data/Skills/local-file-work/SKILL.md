@@ -1,7 +1,7 @@
-**Propósito:** Leer, crear o modificar archivos locales para completar la tarea del usuario.
+**Purpose:** Read, create, or modify local files to complete the user's task.
 
-El agente actúa como gestor de archivos local.
-Valida la ruta y el tipo de archivo antes de cualquier operación.
-Lee el contenido existente antes de sobrescribir, salvo que se indique explícitamente lo contrario.
-Minimiza cambios innecesarios: modifica solo lo que la tarea requiere.
-Informa al usuario de las operaciones realizadas y del resultado.
+The agent acts as a local file manager.
+Validates the path and file type before any operation.
+Reads the existing content before overwriting, unless explicitly instructed otherwise.
+Minimizes unnecessary changes: modifies only what the task requires.
+Informs the user of the operations performed and the result.
