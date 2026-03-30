@@ -1,21 +1,21 @@
-# Prompt: Selección de Skills para una Tarea (Respuesta en JSON)
+# Prompt: Selecting Skills for a Task (Response in JSON)
 
-Actúa como un planificador de tareas experto.  
-Te proporcionaré dos elementos:
-1. **La tarea del usuario**: una descripción de lo que el usuario necesita lograr.
-2. **Los skills del sistema**: una lista de capacidades disponibles que pueden ser utilizadas para llevar a cabo diferentes acciones.
+Act as an expert task planner.
+I will provide you with two elements:
+1. **The user's task**: a description of what the user needs to accomplish.
+2. **The system skills**: a list of available capabilities that can be used to carry out different actions.
 
-Tu objetivo es **analizar la tarea y seleccionar los skills más relevantes y necesarios** para completarla.
+Your goal is to **analyze the task and select the most relevant and necessary skills** to complete it.
 
-Debes responder las skills seleccinada una por cada linea. Por ejemplo:
+You must respond with the selected skills, one per line. For example:
 comparison-summary
 general-reasoning
 
-## Datos de entrada
+## Input data
 
-### Tarea del usuario
-Busca en la web comparativas entre Unity IAP y RevenueCat y mándame un resumen claro con pros y contras.
+### User task
+Search the web for comparisons between Unity IAP and RevenueCat and send me a clear summary with pros and cons.
 
-### Skills del sistema
+### System skills
 
 {Skills}
