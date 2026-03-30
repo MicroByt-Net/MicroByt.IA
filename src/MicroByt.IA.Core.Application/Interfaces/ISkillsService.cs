@@ -5,4 +5,7 @@ public interface ISkillsService
 {
     /// <summary>Loads all skills from SKILL.md files under the Data/Skills directory and stores them internally.</summary>
     void LoadSkills();
+
+    /// <summary>Returns a dictionary mapping each skill name to its purpose.</summary>
+    Dictionary<string, string> GetAllNameAndPurpose();
 }

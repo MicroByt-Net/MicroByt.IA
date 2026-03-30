@@ -12,8 +12,9 @@ public class SkillsService : ISkillsService
 
     private Skill[]? _skills;
 
-    /// <summary>Collection of loaded skills. <see langword="null"/> if <see cref="LoadSkills"/> has not been called yet.</summary>
-    public Skill[]? Skills => _skills;
+    /// <summary>Returns a dictionary mapping each skill name to its purpose.</summary>
+    public Dictionary<string, string> GetAllNameAndPurpose() =>
+        _skills?.ToDictionary(s => s.Name, s => s.Purpose) ?? [];
 
     /// <summary>Loads all skills from SKILL.md files under the Data/Skills directory and stores them internally.</summary>
     public void LoadSkills()
