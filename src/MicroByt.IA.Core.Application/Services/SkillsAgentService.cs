@@ -1,36 +1,26 @@
 using System.Text;
 using MicroByt.IA.Core.Application.Interfaces;
+using MicroByt.IA.Core.Application.Models;
 using MicroByt.IA.Core.Entities.AgentSkills;
-using MicroByt.IA.Core.Entities.Data.AI;
 using OpenAI.Chat;
 
 namespace MicroByt.IA.Core.Application.Services;
 
 /// <summary>Implementación de <see cref="ISkillsAgentService"/> que usa un LLM para seleccionar las skills necesarias para una tarea.</summary>
-public class SkillsAgentService : ISkillsAgentService
+public class SkillsAgentService(
+    IProviderChatClientFactory chatClientFactory,
+    IPromptsCollectionService promptsService,
+    ISkillsToolsCollectionService skillsService)
+    : ISkillsAgentService
 {
-    private readonly IProviderChatClientFactory _chatClientFactory;
-    private readonly IPromptsCollectionService _promptsService;
-    private readonly ISkillsToolsCollectionService _skillsService;
-
-    public SkillsAgentService(
-        IProviderChatClientFactory chatClientFactory,
-        IPromptsCollectionService promptsService,
-        ISkillsToolsCollectionService skillsService)
-    {
-        _chatClientFactory = chatClientFactory;
-        _promptsService = promptsService;
-        _skillsService = skillsService;
-    }
-
     /// <inheritdoc/>
-    public async Task<Skill[]?> Select(AIModel model, string task)
+    public async Task<Skill[]?> Select(SkillsAgentInput input)
     {
-        var promptTemplate = _promptsService.GetPrompt("SelectSkills");
+        var promptTemplate = promptsService.GetPrompt("SelectSkills");
         if (promptTemplate is null)
             return null;
 
-        var skills = _skillsService.Skills;
+        var skills = skillsService.Skills;
         if (skills is null || skills.Length == 0)
             return null;
 
@@ -40,10 +30,10 @@ public class SkillsAgentService : ISkillsAgentService
         var messages = new List<ChatMessage>
         {
             new SystemChatMessage(systemPrompt),
-            new UserChatMessage(task),
+            new UserChatMessage(input.Task),
         };
 
-        var chatClient = _chatClientFactory.GetClient(model);
+        var chatClient = chatClientFactory.GetClient(input.Model);
         var responseBuilder = new StringBuilder();
 
         await foreach (var update in chatClient.CompleteChatStreamingAsync(messages))

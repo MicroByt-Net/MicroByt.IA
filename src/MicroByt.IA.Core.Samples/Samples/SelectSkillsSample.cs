@@ -1,6 +1,7 @@
 using System.Text.Json;
 using MicroByt.IA.Core.Application.Extensions.DependencyInjection;
 using MicroByt.IA.Core.Application.Interfaces;
+using MicroByt.IA.Core.Application.Models;
 using MicroByt.IA.Core.Entities.AgentSkills;
 using MicroByt.IA.Core.Entities.Data.AI;
 using Microsoft.Extensions.DependencyInjection;
@@ -178,7 +179,7 @@ public static class SelectSkillsSample
 
             try
             {
-                selectedSkills = await skillsAgent.Select(model, task);
+                selectedSkills = await skillsAgent.Select(new SkillsAgentInput { Model = model, Task = task });
             }
             catch (Exception ex)
             {

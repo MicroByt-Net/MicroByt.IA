@@ -1,5 +1,5 @@
+using MicroByt.IA.Core.Application.Models;
 using MicroByt.IA.Core.Entities.AgentSkills;
-using MicroByt.IA.Core.Entities.Data.AI;
 
 namespace MicroByt.IA.Core.Application.Interfaces;
 
@@ -7,8 +7,7 @@ namespace MicroByt.IA.Core.Application.Interfaces;
 public interface ISkillsAgentService
 {
     /// <summary>Analiza la tarea y devuelve las skills necesarias para completarla.</summary>
-    /// <param name="model">Modelo de IA que se usará para la selección.</param>
-    /// <param name="task">Descripción de la tarea del usuario.</param>
+    /// <param name="input">Datos de entrada con el modelo y la descripción de la tarea.</param>
     /// <returns>Array de skills seleccionadas, o <see langword="null"/> si no se pudo determinar.</returns>
-    Task<Skill[]?> Select(AIModel model, string task);
+    Task<Skill[]?> Select(SkillsAgentInput input);
 }
