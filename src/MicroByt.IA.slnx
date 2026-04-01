@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="MicroByt.IA.Tests/MicroByt.IA.Tests.csproj" />
   <Project Path="MicroByt.IA/MicroByt.IA.csproj" />
 </Solution>

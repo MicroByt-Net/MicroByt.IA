@@ -43,6 +43,19 @@ dotnet test src/MicroByt.IA.slnx --filter "FullyQualifiedName~TestClassName.Test
 dotnet run --project src/<ProjectName>/<ProjectName>.csproj
 ```
 
+## Tests
+
+Los tests se escriben en el proyecto `MicroByt.IA.Tests`, organizados en carpetas según la capa DDD que prueban:
+
+```
+MicroByt.IA.Tests/
+  Domain/         ← tests de entidades y value objects
+  Application/    ← tests de servicios y casos de uso
+```
+
+- Cada carpeta refleja la capa equivalente en `MicroByt.IA/`
+- Si se añaden más capas con lógica testeable (p.ej. `Infrastructure/`), se crea la carpeta correspondiente
+
 ## Repository Structure
 
 ```
