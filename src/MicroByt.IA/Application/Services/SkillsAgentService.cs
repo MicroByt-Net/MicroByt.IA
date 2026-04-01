@@ -9,7 +9,7 @@ namespace MicroByt.IA.Application.Services;
 public class SkillsAgentService(
     IProviderChatClientFactory chatClientFactory,
     IPromptsCollectionService promptsService,
-    ISkillsToolsCollectionService skillsService)
+    ISkillsService skillsService)
     : ISkillsAgentService
 {
     /// <inheritdoc/>
@@ -19,8 +19,8 @@ public class SkillsAgentService(
         if (promptTemplate is null)
             return;
 
-        var skills = skillsService.Skills;
-        if (skills is null || skills.Length == 0)
+        var skills = skillsService.GetEligibleSkills();
+        if (skills.Length == 0)
             return;
 
         var skillsText = string.Join("\n", skills.Select(s => $"{s.Name}: {s.Description}"));

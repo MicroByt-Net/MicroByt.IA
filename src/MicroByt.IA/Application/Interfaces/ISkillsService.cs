@@ -14,6 +14,13 @@ public interface ISkillsService
     /// <summary>Returns a snapshot of the currently loaded skills.</summary>
     Skill[] GetEligibleSkills();
 
+    /// <summary>
+    /// Carga una skill desde el bloque YAML front matter de un fichero SKILL.md y la añade a la colección interna.
+    /// El formato esperado es un bloque <c>---</c> al inicio del fichero con los campos de la skill en YAML.
+    /// </summary>
+    /// <param name="filePath">Ruta absoluta al fichero SKILL.md.</param>
+    void LoadYamlSkill(string filePath);
+
     /// <summary>Clears all loaded skills.</summary>
     void Clean();
 }

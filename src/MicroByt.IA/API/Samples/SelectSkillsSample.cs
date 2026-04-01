@@ -1,7 +1,6 @@
 #if SAMPLES
 using MicroByt.IA.Application;
 using MicroByt.IA.Application.Interfaces;
-using MicroByt.IA.Domain.AgentSkills;
 using MicroByt.IA.Domain.AI;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -32,59 +31,6 @@ public static class SelectSkillsSample
             // Model = "qwen3",
             Model = "nemotron-3-nano:4b",
         };
-
-        /*
-        Skill[] skills =
-        [
-            new Skill
-            {
-                Name = "web-research",
-                Description = "Investiga información en internet y prioriza fuentes útiles.",
-                Instructions =
-                [
-                    "Empieza con una búsqueda amplia y luego refina.",
-                    "Prioriza documentación oficial y fuentes fiables.",
-                    "Extrae solo la información relevante para la tarea.",
-                    "Evita repetir información redundante.",
-                ],
-            },
-            new Skill
-            {
-                Name = "delivery-summary",
-                Description = "Empaqueta el resultado en un mensaje breve, claro y accionable.",
-                Instructions =
-                [
-                    "Redacta en tono directo.",
-                    "Pon primero la conclusión principal.",
-                    "Después detalla puntos clave.",
-                    "Evita párrafos excesivamente largos.",
-                ],
-            },
-            new Skill
-            {
-                Name = "comparison-summary",
-                Description = "Compara varias opciones y produce una síntesis con pros y contras.",
-                Instructions =
-                [
-                    "Identifica criterios de comparación claros.",
-                    "Resume similitudes y diferencias clave.",
-                    "Entrega pros y contras en lenguaje claro.",
-                    "Concluye con una recomendación si hay suficiente evidencia.",
-                ],
-            },
-            new Skill
-            {
-                Name = "local-file-work",
-                Description = "Trabaja con archivos locales para leer o generar contenido.",
-                Instructions =
-                [
-                    "Valida la ruta y el tipo de archivo.",
-                    "Lee antes de sobrescribir si procede.",
-                    "Minimiza cambios innecesarios.",
-                ],
-            },
-        ];
-        */
 
         string[] tasks =
         [
@@ -169,8 +115,8 @@ public static class SelectSkillsSample
 
         using var scope = provider.CreateScope();
 
-        var skillsService = scope.ServiceProvider.GetRequiredService<ISkillsToolsCollectionService>();
-        //skillsService.SetSkills(skills);
+        var skillsService = scope.ServiceProvider.GetRequiredService<ISkillsService>();
+        skillsService.LoadSkillsSystem();
 
         var skillsAgent = scope.ServiceProvider.GetRequiredService<ISkillsAgentService>();
 

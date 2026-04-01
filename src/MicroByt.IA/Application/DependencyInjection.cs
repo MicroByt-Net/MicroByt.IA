@@ -15,8 +15,7 @@ public static class DependencyInjection
 
         services.AddSingleton<IProviderChatClientFactory, ProviderChatClientFactory>();
         services.AddSingleton<IPromptsCollectionService, PromptsCollectionService>();
-        services.AddSingleton<ISkillsToolsCollectionService, SkillsToolsCollectionService>();
-        services.AddSingleton<IFileSkillCacheService, FileSkillCacheService>();
+services.AddSingleton<IFileSkillCacheService, FileSkillCacheService>();
         services.AddScoped<ISkillsAgentService, SkillsAgentService>();
         services.AddScoped<ISkillsService, SkillsService>();
 

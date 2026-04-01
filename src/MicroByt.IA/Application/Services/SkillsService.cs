@@ -1,5 +1,7 @@
 using MicroByt.IA.Application.Interfaces;
 using MicroByt.IA.Domain.AgentSkills;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace MicroByt.IA.Application.Services;
 
@@ -8,7 +10,11 @@ public class SkillsService(IFileSkillCacheService fileCache) : ISkillsService
 {
     private const string SkillsDirectory = "Data/Skills";
     private const string SkillFileName = "SKILL.md";
-    private const string PurposePrefix = "**Purpose:**";
+
+    private static readonly IDeserializer Deserializer = new DeserializerBuilder()
+        .WithNamingConvention(UnderscoredNamingConvention.Instance)
+        .IgnoreUnmatchedProperties()
+        .Build();
 
     private readonly List<Skill> _skills = [];
 
@@ -22,8 +28,26 @@ public class SkillsService(IFileSkillCacheService fileCache) : ISkillsService
     public void LoadSkillsSystem() =>
         LoadSkills(Path.Combine(AppContext.BaseDirectory, SkillsDirectory));
 
-    // TODO:Hacer un LoadYamlSkill que le paso un fichero y crea el skill desde el contenido --- --- dentro es un contenido yaml
-    // y en skill guardar el fichero para poder leer el contenido de este.
+    /// <inheritdoc/>
+    public void LoadYamlSkill(string filePath)
+    {
+        var content = fileCache.GetContent(filePath);
+        if (content is null)
+            return;
+
+        var yaml = ExtractFrontMatter(content);
+        if (yaml is null)
+            return;
+
+        var dto = Deserializer.Deserialize<SkillYaml>(yaml);
+
+        _skills.Add(new Skill
+        {
+            Name          = dto.Name,
+            Description   = dto.Description,
+            FilePath      = filePath,
+        });
+    }
 
     // TODO: LoadContentSkill que devuelve el contenido del fichero .md sin los datos del yaml
 
@@ -33,30 +57,37 @@ public class SkillsService(IFileSkillCacheService fileCache) : ISkillsService
         if (!Directory.Exists(baseDir))
             return;
 
-        var loaded = Directory
-            .GetDirectories(baseDir)
-            .Select(dir =>
+        foreach (var dir in Directory.GetDirectories(baseDir))
+            LoadYamlSkill(Path.Combine(dir, SkillFileName));
+    }
+
+    // -------------------------------------------------------------------------
+
+    private static string? ExtractFrontMatter(string content)
+    {
+        var lines = content.Split('\n');
+        if (lines.Length < 2 || lines[0].Trim() != "---")
+            return null;
+
+        var end = -1;
+        for (var i = 1; i < lines.Length; i++)
+        {
+            if (lines[i].Trim() == "---")
             {
-                var name = Path.GetFileName(dir);
-                var filePath = Path.Combine(dir, SkillFileName);
+                end = i;
+                break;
+            }
+        }
 
-                var content = fileCache.GetContent(filePath);
-                if (content is null)
-                    return null;
+        return end < 0 ? null : string.Join("\n", lines[1..end]);
+    }
 
-                var purposeLine = content
-                    .Split('\n')
-                    .FirstOrDefault(l => l.StartsWith(PurposePrefix));
-
-                var purpose = purposeLine is not null
-                    ? purposeLine[PurposePrefix.Length..].Trim()
-                    : string.Empty;
-
-                return new Skill { Name = name, Purpose = purpose };
-            })
-            .Where(s => s is not null)
-            .ToList();
-
-        _skills.AddRange(loaded!);
+    private sealed class SkillYaml
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Purpose { get; set; } = string.Empty;
+        public List<string> RequiredTools { get; set; } = [];
+        public List<string> Instructions { get; set; } = [];
     }
 }
