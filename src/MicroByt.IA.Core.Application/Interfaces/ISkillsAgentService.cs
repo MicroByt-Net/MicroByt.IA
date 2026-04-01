@@ -8,6 +8,5 @@ public interface ISkillsAgentService
 {
     /// <summary>Analiza la tarea y devuelve las skills necesarias para completarla.</summary>
     /// <param name="input">Datos de entrada con el modelo y la descripción de la tarea.</param>
-    /// <returns>Array de skills seleccionadas, o <see langword="null"/> si no se pudo determinar.</returns>
-    Task<Skill[]?> Select(SkillsAgentInput input);
+    Task Select(SkillsAgentInput input);
 }

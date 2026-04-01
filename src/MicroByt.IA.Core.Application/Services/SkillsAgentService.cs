@@ -1,7 +1,6 @@
 using System.Text;
 using MicroByt.IA.Core.Application.Interfaces;
 using MicroByt.IA.Core.Application.Models;
-using MicroByt.IA.Core.Entities.AgentSkills;
 using OpenAI.Chat;
 
 namespace MicroByt.IA.Core.Application.Services;
@@ -14,15 +13,15 @@ public class SkillsAgentService(
     : ISkillsAgentService
 {
     /// <inheritdoc/>
-    public async Task<Skill[]?> Select(SkillsAgentInput input)
+    public async Task Select(SkillsAgentInput input)
     {
         var promptTemplate = promptsService.GetPrompt("SelectSkills");
         if (promptTemplate is null)
-            return null;
+            return;
 
         var skills = skillsService.Skills;
         if (skills is null || skills.Length == 0)
-            return null;
+            return;
 
         var skillsText = string.Join("\n", skills.Select(s => $"{s.Name}: {s.Description}"));
         var systemPrompt = promptTemplate.Replace("{Skills}", skillsText);
@@ -41,13 +40,5 @@ public class SkillsAgentService(
             foreach (var part in update.ContentUpdate)
                 responseBuilder.Append(part.Text);
         }
-
-        var skillsByName = skills.ToDictionary(s => s.Name);
-
-        return responseBuilder.ToString()
-            .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Select(line => skillsByName.GetValueOrDefault(line))
-            .OfType<Skill>()
-            .ToArray();
     }
 }

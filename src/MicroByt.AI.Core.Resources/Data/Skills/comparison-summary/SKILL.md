@@ -1,3 +1,8 @@
+---
+name: comparison-summary
+description: Compare multiple options and produce a synthesis with pros and cons.
+---
+
 **Purpose:** Compare multiple options and produce a synthesis with pros and cons.
 
 The agent acts as a comparative analyst.

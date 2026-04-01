@@ -1,3 +1,8 @@
+---
+name: web-research
+description: Research information on the internet and prioritize useful sources.
+---
+
 **Purpose:** Research information on the internet and prioritize useful sources.
 
 The agent acts as a specialized web researcher.

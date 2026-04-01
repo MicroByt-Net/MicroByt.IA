@@ -1,3 +1,8 @@
+---
+name: delivery-summary
+description: Package the result of a task into a brief, clear, and actionable message.
+---
+
 **Purpose:** Package the result of a task into a brief, clear, and actionable message.
 
 The agent acts as a results communicator.

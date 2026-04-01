@@ -1,3 +1,8 @@
+---
+name: email-assistant
+description: Draft, summarize, and organize emails.
+---
+
 **Purpose:** Draft, summarize, and organize emails.
 
 The agent acts as a written communication assistant.

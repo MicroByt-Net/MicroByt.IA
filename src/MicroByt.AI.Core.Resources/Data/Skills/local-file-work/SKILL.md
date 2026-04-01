@@ -1,3 +1,8 @@
+---
+name: local-file-work
+description: Read, create, or modify local files to complete the user's task.
+---
+
 **Purpose:** Read, create, or modify local files to complete the user's task.
 
 The agent acts as a local file manager.

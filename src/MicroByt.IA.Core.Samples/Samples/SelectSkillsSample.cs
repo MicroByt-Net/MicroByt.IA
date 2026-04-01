@@ -175,19 +175,14 @@ public static class SelectSkillsSample
 
         foreach (var task in tasks)
         {
-            Skill[]? selectedSkills = null;
-
             try
             {
-                selectedSkills = await skillsAgent.Select(new SkillsAgentInput { Model = model, Task = task });
+                await skillsAgent.Select(new SkillsAgentInput { Model = model, Task = task });
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error seleccionando skills: " + ex.Message);
             }
-
-            var json = JsonSerializer.Serialize(selectedSkills, new JsonSerializerOptions { WriteIndented = true });
-            Console.WriteLine(json);
         }
     }
 }
