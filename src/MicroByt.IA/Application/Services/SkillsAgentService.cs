@@ -1,6 +1,6 @@
 using System.Text;
 using MicroByt.IA.Application.Interfaces;
-using MicroByt.IA.Application.Models;
+using MicroByt.IA.Domain.AI;
 using OpenAI.Chat;
 
 namespace MicroByt.IA.Application.Services;
@@ -13,7 +13,7 @@ public class SkillsAgentService(
     : ISkillsAgentService
 {
     /// <inheritdoc/>
-    public async Task Select(SkillsAgentInput input)
+    public async Task Select(AIModel model, string task)
     {
         var promptTemplate = promptsService.GetPrompt("SelectSkills");
         if (promptTemplate is null)
@@ -29,10 +29,10 @@ public class SkillsAgentService(
         var messages = new List<ChatMessage>
         {
             new SystemChatMessage(systemPrompt),
-            new UserChatMessage(input.Task),
+            new UserChatMessage(task),
         };
 
-        var chatClient = chatClientFactory.GetClient(input.Model);
+        var chatClient = chatClientFactory.GetClient(model);
         var responseBuilder = new StringBuilder();
 
         await foreach (var update in chatClient.CompleteChatStreamingAsync(messages))

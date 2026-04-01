@@ -1,6 +1,6 @@
+#if SAMPLES
 using MicroByt.IA.Application;
 using MicroByt.IA.Application.Interfaces;
-using MicroByt.IA.Application.Models;
 using MicroByt.IA.Domain.AgentSkills;
 using MicroByt.IA.Domain.AI;
 using Microsoft.Extensions.DependencyInjection;
@@ -176,7 +176,7 @@ public static class SelectSkillsSample
         {
             try
             {
-                await skillsAgent.Select(new SkillsAgentInput { Model = model, Task = task });
+                await skillsAgent.Select(model, task);
             }
             catch (Exception ex)
             {
@@ -185,3 +185,4 @@ public static class SelectSkillsSample
         }
     }
 }
+#endif
