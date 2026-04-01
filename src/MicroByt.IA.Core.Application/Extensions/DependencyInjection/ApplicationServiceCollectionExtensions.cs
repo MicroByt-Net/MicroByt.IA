@@ -16,7 +16,7 @@ public static class ApplicationServiceCollectionExtensions
         services.AddSingleton<IPromptsCollectionService, PromptsCollectionService>();
         services.AddSingleton<ISkillsToolsCollectionService, SkillsToolsCollectionService>();
         services.AddScoped<ISkillsAgentService, SkillsAgentService>();
-        services.AddSingleton<ISkillsService, SkillsService>();
+        services.AddScoped<ISkillsService, SkillsService>();
 
         return services;
     }
