@@ -24,7 +24,7 @@ git add <archivos>   # el usuario stagea lo que quiere
 
 ## Project Overview
 
-MicroByt.IA is a .NET project aimed at building an OpenClaw implementation. The solution file is at `src/MicroByt.IA.slnx`.
+MicroByt.IA es una implementación mini de OpenClaw en .NET, ejecutada como aplicación de consola. Reproduce el núcleo de un agente conversacional con soporte de skills, tools y selección dinámica de capacidades mediante LLMs. El objetivo es explorar arquitecturas de agentes IA en .NET de forma práctica y ligera. La solución se encuentra en `src/MicroByt.IA.slnx`.
 
 ## Build & Run Commands
 
@@ -45,10 +45,29 @@ dotnet run --project src/<ProjectName>/<ProjectName>.csproj
 
 ## Repository Structure
 
-- `src/` — all source code and the solution file (`MicroByt.IA.slnx`)
-- `docs/` — documentation
-
-New C# projects should be placed under `src/` and added to the solution.
+```
+src/
+  MicroByt.IA/                         ← proyecto único (consola)
+    Domain/
+      AI/                              ← AIModel, Provider
+      AgentSkills/                     ← Skill, Tool
+    Application/
+      Interfaces/                      ← ISkillsService, ISkillsAgentService, ...
+      Models/                          ← SkillFileCacheEntry, SkillsAgentInput
+      Services/                        ← SkillsService, SkillsAgentService, ...
+      DependencyInjection.cs           ← AddMicrobytIA()
+    Infrastructure/
+      Api/OpenAI/                      ← CompletionsRequest, CompletionsResponse
+      Exceptions/                      ← DeserializeJsonIAException
+      Helpers/                         ← JsonHelper
+      Services/                        ← FileSkillCacheService, ProviderChatClientFactory, ...
+    API/
+      Samples/                         ← SelectSkillsSample
+    Program.cs
+    MicroByt.IA.csproj
+  MicroByt.IA.slnx
+docs/
+```
 
 ## Stack
 
@@ -56,37 +75,56 @@ New C# projects should be placed under `src/` and added to the solution.
 - IDE: Visual Studio (`.slnx` solution format)
 - License: Apache 2.0
 
+## Principios de diseño
+
+Este proyecto sigue **Clean Architecture + DDD** y los principios **SOLID**:
+
+- **Domain/** — objetos de dominio puros (entidades, value objects). Sin dependencias externas.
+- **Application/** — interfaces, modelos y servicios de casos de uso. Depende solo de Domain.
+- **Infrastructure/** — implementaciones concretas (I/O, APIs externas, caché). Depende de Application.
+- **API/** — punto de entrada, samples, controladores. Depende de Application e Infrastructure.
+
+### SOLID
+- **S** — Una clase, una responsabilidad
+- **O** — Abierto a extensión, cerrado a modificación
+- **L** — Las implementaciones deben poder sustituir a sus interfaces sin romper el comportamiento
+- **I** — Interfaces pequeñas y específicas, no genéricas
+- **D** — Depender de abstracciones (interfaces), nunca de implementaciones concretas
+
 ## Convenciones de la capa de aplicación
 
 ### Servicios
 
-Cada vez que se cree una clase de servicio en `MicroByt.IA.Core.Application.Services`, se deben seguir estos tres pasos obligatoriamente:
+Cada vez que se cree un servicio se deben seguir estos tres pasos obligatoriamente:
 
-1. **Crear la interfaz** correspondiente en `MicroByt.IA.Core.Application.Interfaces` con el prefijo `I`:
+**1. Crear la interfaz** en `Application/Interfaces/` con el prefijo `I`:
 ```csharp
-   // MicroByt.IA.Core.Application.Interfaces/IMyService.cs
-   namespace MicroByt.IA.Core.Application.Interfaces;
+// Application/Interfaces/IMyService.cs
+namespace MicroByt.IA.Application.Interfaces;
 
-   public interface IMyService
-   {
-       // métodos públicos del servicio
-   }
+public interface IMyService
+{
+    // métodos públicos del servicio
+}
 ```
 
-2. **Implementar la interfaz** en la clase de servicio:
-```csharp
-   // MicroByt.IA.Core.Application.Services/MyService.cs
-   namespace MicroByt.IA.Core.Application.Services;
+**2. Implementar la interfaz** en la capa correspondiente:
+- Lógica de caso de uso → `Application/Services/`
+- Acceso a ficheros, APIs externas, caché → `Infrastructure/Services/`
 
-   public class MyService : IMyService
-   {
-       // implementación
-   }
+```csharp
+// Application/Services/MyService.cs  (o Infrastructure/Services/)
+namespace MicroByt.IA.Application.Services;
+
+public class MyService : IMyService
+{
+    // implementación
+}
 ```
 
-3. **Registrar el servicio** en el método `AddMicrobytIAApplication` (habitualmente en `DependencyInjection.cs` o equivalente):
+**3. Registrar el servicio** en `Application/DependencyInjection.cs`, dentro de `AddMicrobytIA()`:
 ```csharp
-   services.AddScoped<IMyService, MyService>();
+services.AddScoped<IMyService, MyService>();
 ```
 
-> Nunca dejes un servicio sin su interfaz ni sin su registro en `AddMicrobytIAApplication`.
+> Nunca dejes un servicio sin su interfaz ni sin su registro en `AddMicrobytIA()`.
