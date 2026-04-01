@@ -33,6 +33,7 @@ public static class SelectSkillsSample
             Model = "nemotron-3-nano:4b",
         };
 
+        /*
         Skill[] skills =
         [
             new Skill
@@ -83,6 +84,7 @@ public static class SelectSkillsSample
                 ],
             },
         ];
+        */
 
         string[] tasks =
         [
@@ -168,7 +170,7 @@ public static class SelectSkillsSample
         using var scope = provider.CreateScope();
 
         var skillsService = scope.ServiceProvider.GetRequiredService<ISkillsToolsCollectionService>();
-        skillsService.SetSkills(skills);
+        //skillsService.SetSkills(skills);
 
         var skillsAgent = scope.ServiceProvider.GetRequiredService<ISkillsAgentService>();
 
