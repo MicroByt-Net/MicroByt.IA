@@ -15,6 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Slash commands disponibles
 
 * `/commit` — Analiza los cambios staged y sugiere un mensaje de commit
+* `/stage` — Muestra los ficheros unstaged/untracked y permite seleccionar cuáles añadir al stage
 
 ## Flujo recomendado
 ```bash
