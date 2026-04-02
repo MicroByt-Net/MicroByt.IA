@@ -35,6 +35,7 @@ public static class SelectSkillsSample
         string[] tasks =
         [
             "Busca en la web comparativas entre Unity IAP y RevenueCat y mándame un resumen claro con pros y contras.",
+            /*
             "A partir de ahora recuerda que prefiero respuestas técnicas, breves y en español.",
             "Guarda que trabajo sobre todo con C#, Unity y ASP.NET Core.",
             "Recuerda que estoy preparando mi proyecto final del máster sobre agentes con IA en .NET.",
@@ -111,6 +112,7 @@ public static class SelectSkillsSample
             "Busca si hay buenas prácticas para auditoría de tools en asistentes IA.",
             "Resume lo importante y guárdalo.",
             "Dime qué parte del proyecto tiene más riesgo técnico."
+            */
         ];
 
         using var scope = provider.CreateScope();
@@ -124,7 +126,10 @@ public static class SelectSkillsSample
         {
             try
             {
-                await skillsAgent.RunAgent(model, task);
+                Console.WriteLine($"Task: {task}");
+                var result = await skillsAgent.RunAgent(model, task);
+                Console.WriteLine($"Response: {result}");
+                Console.WriteLine();
             }
             catch (Exception ex)
             {

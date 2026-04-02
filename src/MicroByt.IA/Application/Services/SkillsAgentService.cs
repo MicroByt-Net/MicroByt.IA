@@ -14,15 +14,15 @@ public class SkillsAgentService(
     : ISkillsAgentService
 {
     /// <inheritdoc/>
-    public async Task RunAgent(AIModel model, string task)
+    public async Task<string> RunAgent(AIModel model, string task)
     {
         var promptTemplate = promptsService.GetPrompt("Agent");
         if (promptTemplate is null)
-            return;
+            return string.Empty;
 
         var skills = skillsService.GetEligibleSkills();
         if (skills.Length == 0)
-            return;
+            return string.Empty;
 
         var skillsText = string.Join("\n", skills.Select(FormatSkill));
         var systemPrompt = promptTemplate.Replace("{ActiveSkills}", skillsText);
@@ -41,6 +41,8 @@ public class SkillsAgentService(
             foreach (var part in update.ContentUpdate)
                 responseBuilder.Append(part.Text);
         }
+
+        return responseBuilder.ToString();
     }
 
     private string FormatSkill(Skill skill)
