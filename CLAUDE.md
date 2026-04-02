@@ -17,6 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 * `/commit` — Analiza los cambios staged y sugiere un mensaje de commit
 * `/stage` — Muestra los ficheros unstaged/untracked y permite seleccionar cuáles añadir al stage
 * `/ship` — Ejecuta `/stage` y `/commit` en secuencia (flujo completo en un solo comando)
+* `/push` — Hace push de la rama actual al remoto con confirmación previa
 
 ## Flujo recomendado
 ```bash
