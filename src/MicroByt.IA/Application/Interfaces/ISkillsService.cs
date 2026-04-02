@@ -21,6 +21,10 @@ public interface ISkillsService
     /// <param name="filePath">Ruta absoluta al fichero SKILL.md.</param>
     void LoadYamlSkill(string filePath);
 
+    /// <summary>Returns the body content of a SKILL.md file, stripping the YAML front matter block.</summary>
+    /// <param name="filePath">Absolute path to the SKILL.md file.</param>
+    string? LoadContentSkill(string filePath);
+
     /// <summary>Clears all loaded skills.</summary>
     void Clean();
 }

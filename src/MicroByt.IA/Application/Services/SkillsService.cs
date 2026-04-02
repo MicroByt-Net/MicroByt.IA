@@ -49,7 +49,25 @@ public class SkillsService(IFileSkillCacheService fileCache) : ISkillsService
         });
     }
 
-    // TODO: LoadContentSkill que devuelve el contenido del fichero .md sin los datos del yaml
+    /// <inheritdoc/>
+    public string? LoadContentSkill(string filePath)
+    {
+        var content = fileCache.GetContent(filePath);
+        if (content is null)
+            return null;
+
+        var lines = content.Split('\n');
+        if (lines.Length < 2 || lines[0].Trim() != "---")
+            return content;
+
+        for (var i = 1; i < lines.Length; i++)
+        {
+            if (lines[i].Trim() == "---")
+                return string.Join("\n", lines[(i + 1)..]).TrimStart();
+        }
+
+        return content;
+    }
 
     /// <summary>Loads all skills from SKILL.md files under the specified base directory and stores them internally.</summary>
     public void LoadSkills(string baseDir)

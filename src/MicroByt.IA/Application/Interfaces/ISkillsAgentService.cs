@@ -9,5 +9,5 @@ public interface ISkillsAgentService
     /// <summary>Analiza la tarea y devuelve las skills necesarias para completarla.</summary>
     /// <param name="model">Modelo de IA que se usará para la selección.</param>
     /// <param name="task">Descripción de la tarea del usuario.</param>
-    Task Select(AIModel model, string task);
+    Task RunAgent(AIModel model, string task);
 }

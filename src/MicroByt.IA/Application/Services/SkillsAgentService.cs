@@ -1,5 +1,6 @@
 using System.Text;
 using MicroByt.IA.Application.Interfaces;
+using MicroByt.IA.Domain.AgentSkills;
 using MicroByt.IA.Domain.AI;
 using OpenAI.Chat;
 
@@ -13,9 +14,9 @@ public class SkillsAgentService(
     : ISkillsAgentService
 {
     /// <inheritdoc/>
-    public async Task Select(AIModel model, string task)
+    public async Task RunAgent(AIModel model, string task)
     {
-        var promptTemplate = promptsService.GetPrompt("SelectSkills");
+        var promptTemplate = promptsService.GetPrompt("Agent");
         if (promptTemplate is null)
             return;
 
@@ -23,8 +24,8 @@ public class SkillsAgentService(
         if (skills.Length == 0)
             return;
 
-        var skillsText = string.Join("\n", skills.Select(s => $"{s.Name}: {s.Description}"));
-        var systemPrompt = promptTemplate.Replace("{Skills}", skillsText);
+        var skillsText = string.Join("\n", skills.Select(FormatSkill));
+        var systemPrompt = promptTemplate.Replace("{ActiveSkills}", skillsText);
 
         var messages = new List<ChatMessage>
         {
@@ -40,5 +41,21 @@ public class SkillsAgentService(
             foreach (var part in update.ContentUpdate)
                 responseBuilder.Append(part.Text);
         }
+    }
+
+    private string FormatSkill(Skill skill)
+    {
+        var instructions = skill.FilePath is not null
+            ? skillsService.LoadContentSkill(skill.FilePath)
+            : null;
+
+        var sb = new StringBuilder();
+        sb.AppendLine($"- Skill: {skill.Name}");
+        sb.AppendLine($"  Description: {skill.Description}");
+        sb.AppendLine("  Instructions:");
+        if (instructions is not null)
+            foreach (var line in instructions.Split('\n'))
+                sb.AppendLine($"  {line}");
+        return sb.ToString();
     }
 }

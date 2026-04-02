@@ -124,7 +124,7 @@ public static class SelectSkillsSample
         {
             try
             {
-                await skillsAgent.Select(model, task);
+                await skillsAgent.RunAgent(model, task);
             }
             catch (Exception ex)
             {

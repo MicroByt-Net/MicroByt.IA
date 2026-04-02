@@ -201,6 +201,71 @@ public class SkillsServiceTests
     }
 
     // -------------------------------------------------------------------------
+    // LoadContentSkill
+    // -------------------------------------------------------------------------
+
+    [Fact]
+    public void LoadContentSkill_WhenFileNotFound_ReturnsNull()
+    {
+        var sut = new SkillsService(new FakeFileCache());
+
+        var result = sut.LoadContentSkill("missing.md");
+
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void LoadContentSkill_WhenFileHasNoFrontMatter_ReturnsFullContent()
+    {
+        const string content = "Just markdown without front matter.";
+        var cache = new FakeFileCache();
+        cache.Setup("skill.md", content);
+        var sut = new SkillsService(cache);
+
+        var result = sut.LoadContentSkill("skill.md");
+
+        Assert.Equal(content, result);
+    }
+
+    [Fact]
+    public void LoadContentSkill_WhenFrontMatterIsUnclosed_ReturnsFullContent()
+    {
+        const string content = "---\nname: no-close\n";
+        var cache = new FakeFileCache();
+        cache.Setup("skill.md", content);
+        var sut = new SkillsService(cache);
+
+        var result = sut.LoadContentSkill("skill.md");
+
+        Assert.Equal(content, result);
+    }
+
+    [Fact]
+    public void LoadContentSkill_WithValidFrontMatter_ReturnsBodyWithoutYamlBlock()
+    {
+        var cache = new FakeFileCache();
+        cache.Setup("skill.md", ValidYaml);
+        var sut = new SkillsService(cache);
+
+        var result = sut.LoadContentSkill("skill.md");
+
+        Assert.Equal("Some markdown content here.", result?.Trim());
+    }
+
+    [Fact]
+    public void LoadContentSkill_WithOnlyFrontMatter_ReturnsEmptyBody()
+    {
+        const string content = "---\nname: empty-body\ndescription: No body\n---\n";
+        var cache = new FakeFileCache();
+        cache.Setup("skill.md", content);
+        var sut = new SkillsService(cache);
+
+        var result = sut.LoadContentSkill("skill.md");
+
+        Assert.Equal(string.Empty, result?.Trim());
+    }
+
+    // -------------------------------------------------------------------------
     // LoadSkills
     // -------------------------------------------------------------------------
 
