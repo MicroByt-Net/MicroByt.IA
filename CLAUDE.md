@@ -71,12 +71,11 @@ src/
     Application/
       Interfaces/                      ← ISkillsService, ISkillsAgentService, IToolChain, IToolChainRegistry, ...
       Models/                          ← SkillFileCacheEntry, SkillsAgentInput
-      Services/                        ← SkillsService, SkillsAgentService, ToolChainRegistry, ...
+      Services/                        ← SkillsService, ToolChainRegistry, ... (sin dependencias externas)
     Infrastructure/
-      Api/OpenAI/                      ← CompletionsRequest, CompletionsResponse
       Exceptions/                      ← DeserializeJsonIAException, ToolChainNotFoundException
       Helpers/                         ← JsonHelper
-      Services/                        ← FileSkillCacheService, ProviderChatClientFactory, ...
+      Services/                        ← FileSkillCacheService, ProviderChatClientFactory, SkillsAgentService, ...
       ToolChains/                      ← WebSearchToolChain, ... (una clase por tool)
       DependencyInjection.cs           ← AddMicrobytIA()
     API/
@@ -109,6 +108,25 @@ Este proyecto sigue **Clean Architecture + DDD** y los principios **SOLID**:
 - **I** — Interfaces pequeñas y específicas, no genéricas
 - **D** — Depender de abstracciones (interfaces), nunca de implementaciones concretas
 
+## Convenciones de C#
+
+### Constructores primarios (C# 12)
+
+Usar constructores primarios para inyección de dependencias. Los parámetros del constructor **nunca** se usan directamente en los métodos — siempre se asignan a un campo `readonly` con prefijo `_` y solo ese campo se usa en el cuerpo de la clase:
+
+```csharp
+public class MyService(IFoo foo) : IMyService
+{
+    private readonly IFoo _foo = foo;  // asignación en el inicializador
+
+    public void DoSomething() => _foo.Bar();  // usar _foo, nunca foo
+}
+```
+
+> **Por qué:** usar el parámetro directamente en métodos (en vez de `_foo`) hace que el compilador lo capture en el estado del tipo (CS9124) y permite mutación accidental. El campo `readonly` garantiza inmutabilidad explícita.
+
+---
+
 ## Convenciones de la capa de aplicación
 
 ### Servicios
@@ -126,18 +144,30 @@ public interface IMyService
 }
 ```
 
-**2. Implementar la interfaz** en la capa correspondiente:
-- Lógica de caso de uso → `Application/Services/`
-- Acceso a ficheros, APIs externas, caché → `Infrastructure/Services/`
+**2. Implementar la interfaz** en la capa que corresponda según sus dependencias:
 
+| La implementación usa… | Capa | Carpeta |
+|---|---|---|
+| Solo lógica pura / otras interfaces de Application | Application | `Application/Services/` |
+| Librerías externas (OpenAI SDK, EF Core, HttpClient…) | Infrastructure | `Infrastructure/Services/` |
+| Sistema de ficheros, caché, APIs remotas | Infrastructure | `Infrastructure/Services/` |
+
+> **Regla:** si el fichero necesita un `using` de una librería de terceros, la implementación va en **Infrastructure**, no en Application. La interfaz siempre queda en Application.
+
+Ejemplo — servicio sin dependencias externas:
 ```csharp
-// Application/Services/MyService.cs  (o Infrastructure/Services/)
+// Application/Services/MyService.cs
 namespace MicroByt.IA.Application.Services;
 
-public class MyService : IMyService
-{
-    // implementación
-}
+public class MyService : IMyService { ... }
+```
+
+Ejemplo — servicio con dependencia externa (p.ej. OpenAI SDK):
+```csharp
+// Infrastructure/Services/MyService.cs
+namespace MicroByt.IA.Infrastructure.Services;
+
+public class MyService : IMyService { ... }
 ```
 
 **3. Registrar el servicio** en `Infrastructure/DependencyInjection.cs`, dentro de `AddMicrobytIA()`:

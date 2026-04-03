@@ -15,6 +15,8 @@ namespace MicroByt.IA.Infrastructure.Services;
 /// </remarks>
 public sealed class FileSkillCacheService(IMemoryCache cache) : IFileSkillCacheService
 {
+    private readonly IMemoryCache _cache = cache;
+
     /// <inheritdoc/>
     public string? GetContent(string filePath)
     {
@@ -34,12 +36,12 @@ public sealed class FileSkillCacheService(IMemoryCache cache) : IFileSkillCacheS
     }
 
     /// <inheritdoc/>
-    public void Invalidate(string filePath) => cache.Remove(CacheKey(filePath));
+    public void Invalidate(string filePath) => _cache.Remove(CacheKey(filePath));
 
     /// <inheritdoc/>
     public void InvalidateAll()
     {
-        if (cache is MemoryCache mc)
+        if (_cache is MemoryCache mc)
             mc.Clear();
     }
 
@@ -47,14 +49,14 @@ public sealed class FileSkillCacheService(IMemoryCache cache) : IFileSkillCacheS
 
     private bool TryGetValidEntry(string filePath, out SkillFileCacheEntry? entry)
     {
-        if (!cache.TryGetValue(CacheKey(filePath), out entry) || entry is null)
+        if (!_cache.TryGetValue(CacheKey(filePath), out entry) || entry is null)
             return false;
 
         var info = new FileInfo(filePath);
 
         if (!info.Exists)
         {
-            cache.Remove(CacheKey(filePath));
+            _cache.Remove(CacheKey(filePath));
             entry = null;
             return false;
         }
@@ -64,7 +66,7 @@ public sealed class FileSkillCacheService(IMemoryCache cache) : IFileSkillCacheS
             return true;
 
         // El fichero cambió: invalida la entrada obsoleta.
-        cache.Remove(CacheKey(filePath));
+        _cache.Remove(CacheKey(filePath));
         entry = null;
         return false;
     }
@@ -90,7 +92,7 @@ public sealed class FileSkillCacheService(IMemoryCache cache) : IFileSkillCacheS
             CachedAtUtc     = DateTime.UtcNow,
         };
 
-        cache.Set(CacheKey(filePath), newEntry);
+        _cache.Set(CacheKey(filePath), newEntry);
         return newEntry;
     }
 

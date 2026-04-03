@@ -1,3 +1,4 @@
+using System.Text.Json;
 using MicroByt.IA.Application.Interfaces;
 using MicroByt.IA.Domain.AgentSkills;
 
@@ -22,7 +23,7 @@ public class WebSearchToolChain : IToolChain
             """,
     };
 
-    public Task<string> ExecuteAsync(string argumentsJson, CancellationToken ct = default)
+    public Task<string> ExecuteAsync(JsonDocument arguments, CancellationToken ct = default)
     {
         // TODO: implementar búsqueda real
         throw new NotImplementedException();

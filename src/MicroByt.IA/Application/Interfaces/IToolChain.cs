@@ -1,3 +1,4 @@
+using System.Text.Json;
 using MicroByt.IA.Domain.AgentSkills;
 
 namespace MicroByt.IA.Application.Interfaces;
@@ -9,8 +10,8 @@ public interface IToolChain
     Tool Tool { get; }
 
     /// <summary>Ejecuta la herramienta con los argumentos proporcionados por el LLM.</summary>
-    /// <param name="argumentsJson">JSON con los argumentos según el schema de <see cref="Tool.JsonSchema"/>.</param>
+    /// <param name="arguments">Argumentos parseados según el schema de <see cref="Tool.JsonSchema"/>.</param>
     /// <param name="ct">Token de cancelación.</param>
     /// <returns>Resultado de la ejecución como cadena (normalmente JSON o texto plano).</returns>
-    Task<string> ExecuteAsync(string argumentsJson, CancellationToken ct = default);
+    Task<string> ExecuteAsync(JsonDocument arguments, CancellationToken ct = default);
 }

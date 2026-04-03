@@ -8,6 +8,8 @@ namespace MicroByt.IA.Application.Services;
 /// <summary>Implementation of <see cref="ISkillsService"/> that loads skills from SKILL.md files on disk.</summary>
 public class SkillsService(IFileSkillCacheService fileCache) : ISkillsService
 {
+    private readonly IFileSkillCacheService _fileCache = fileCache;
+
     private const string SkillsDirectory = "Data/Skills";
     private const string SkillFileName = "SKILL.md";
 
@@ -31,7 +33,7 @@ public class SkillsService(IFileSkillCacheService fileCache) : ISkillsService
     /// <inheritdoc/>
     public void LoadYamlSkill(string filePath)
     {
-        var content = fileCache.GetContent(filePath);
+        var content = _fileCache.GetContent(filePath);
         if (content is null)
             return;
 
@@ -52,7 +54,7 @@ public class SkillsService(IFileSkillCacheService fileCache) : ISkillsService
     /// <inheritdoc/>
     public string? LoadContentSkill(string filePath)
     {
-        var content = fileCache.GetContent(filePath);
+        var content = _fileCache.GetContent(filePath);
         if (content is null)
             return null;
 

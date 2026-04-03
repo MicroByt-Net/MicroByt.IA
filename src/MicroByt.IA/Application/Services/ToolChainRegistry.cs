@@ -1,3 +1,4 @@
+using System.Text.Json;
 using MicroByt.IA.Application.Interfaces;
 using MicroByt.IA.Domain.AgentSkills;
 using MicroByt.IA.Infrastructure.Exceptions;
@@ -20,11 +21,11 @@ public class ToolChainRegistry : IToolChainRegistry
     public IReadOnlyList<Tool> GetTools() =>
         _chains.Values.Select(tc => tc.Tool).ToList();
 
-    public Task<string> ExecuteAsync(string toolName, string argumentsJson, CancellationToken ct = default)
+    public Task<string> ExecuteAsync(string toolName, JsonDocument arguments, CancellationToken ct = default)
     {
         if (!_chains.TryGetValue(toolName, out var chain))
             throw new ToolChainNotFoundException(toolName);
 
-        return chain.ExecuteAsync(argumentsJson, ct);
+        return chain.ExecuteAsync(arguments, ct);
     }
 }
