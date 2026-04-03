@@ -84,6 +84,16 @@ Análisis de las alternativas para implementar `WebSearchToolChain` en MicroByt.
 | **DuckDuckGo IA** | Ilimitado | No | ❌ | ❌ |
 | **SearXNG self-hosted** | Ilimitado | No | ❌ (snippet) | Parcial |
 
-## Decisión pendiente
+## Decisión
 
-Aún no se ha decidido qué API usar. Las candidatas principales son **Tavily** (mejor calidad para agentes) y **Brave** (más free tier). Se evaluará también si OpenClaw usa alguna de estas como referencia.
+**Se usa Tavily.**
+
+La API key se lee de la variable de entorno `TAVILY_API_KEY`. La implementación está en `Infrastructure/ToolChains/WebSearchToolChain.cs`.
+
+```bash
+# Windows
+set TAVILY_API_KEY=tvly-...
+
+# Linux / macOS
+export TAVILY_API_KEY=tvly-...
+```

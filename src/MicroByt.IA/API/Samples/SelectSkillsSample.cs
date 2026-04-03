@@ -2,6 +2,7 @@
 using MicroByt.IA.Infrastructure;
 using MicroByt.IA.Application.Interfaces;
 using MicroByt.IA.Domain.AI;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MicroByt.IA.API.Samples;
@@ -10,7 +11,15 @@ public static class SelectSkillsSample
 {
     public static async Task RunTest1()
     {
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile("appsettings.Development.json", optional: true)
+            .AddEnvironmentVariables()
+            .Build();
+
         var services = new ServiceCollection();
+        services.AddSingleton<IConfiguration>(configuration);
         services.AddMicrobytIA();
 
         var provider = services.BuildServiceProvider();
