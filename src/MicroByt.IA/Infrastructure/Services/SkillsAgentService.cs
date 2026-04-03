@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using MicroByt.IA.Application.Interfaces;
+using MicroByt.IA.Infrastructure.Interfaces;
 using MicroByt.IA.Domain.AgentSkills;
 using MicroByt.IA.Domain.AI;
 using OpenAI.Chat;

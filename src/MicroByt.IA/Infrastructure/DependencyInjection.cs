@@ -1,5 +1,6 @@
 using MicroByt.IA.Application.Interfaces;
 using MicroByt.IA.Application.Services;
+using MicroByt.IA.Infrastructure.Interfaces;
 using MicroByt.IA.Infrastructure.Services;
 using MicroByt.IA.Infrastructure.ToolChains;
 using Microsoft.Extensions.DependencyInjection;

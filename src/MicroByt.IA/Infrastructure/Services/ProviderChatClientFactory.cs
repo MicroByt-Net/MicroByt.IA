@@ -1,5 +1,5 @@
 using System.ClientModel;
-using MicroByt.IA.Application.Interfaces;
+using MicroByt.IA.Infrastructure.Interfaces;
 using MicroByt.IA.Domain.AI;
 using OpenAI;
 using OpenAI.Chat;

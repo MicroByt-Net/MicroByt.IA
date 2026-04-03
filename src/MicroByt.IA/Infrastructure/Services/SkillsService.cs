@@ -3,7 +3,7 @@ using MicroByt.IA.Domain.AgentSkills;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace MicroByt.IA.Application.Services;
+namespace MicroByt.IA.Infrastructure.Services;
 
 /// <summary>Implementation of <see cref="ISkillsService"/> that loads skills from SKILL.md files on disk.</summary>
 public class SkillsService(IFileSkillCacheService fileCache) : ISkillsService

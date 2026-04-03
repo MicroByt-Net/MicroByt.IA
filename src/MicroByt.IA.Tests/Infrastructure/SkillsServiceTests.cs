@@ -1,8 +1,8 @@
 using MicroByt.IA.Application.Interfaces;
 using MicroByt.IA.Application.Models;
-using MicroByt.IA.Application.Services;
+using MicroByt.IA.Infrastructure.Services;
 
-namespace MicroByt.IA.Tests.Application;
+namespace MicroByt.IA.Tests.Infrastructure;
 
 public class SkillsServiceTests
 {

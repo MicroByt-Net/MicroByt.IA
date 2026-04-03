@@ -19,6 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 * `/ship` — Ejecuta `/stage` y `/commit` en secuencia (flujo completo en un solo comando)
 * `/push` — Hace push de la rama actual al remoto con confirmación previa
 * `/add-data-copy` — Añade al `.csproj` la configuración para copiar `Data\**\*` en build y publish
+* `/ddd-check` — Analiza el proyecto en busca de violaciones de Clean Architecture y DDD
 
 ## Flujo recomendado
 ```bash
@@ -72,8 +73,9 @@ src/
       Interfaces/                      ← ISkillsService, ISkillsAgentService, IToolChain, IToolChainRegistry, ...
       Models/                          ← SkillFileCacheEntry, SkillsAgentInput
       Services/                        ← SkillsService, ToolChainRegistry, ... (sin dependencias externas)
+      Exceptions/                      ← ToolChainNotFoundException
     Infrastructure/
-      Exceptions/                      ← DeserializeJsonIAException, ToolChainNotFoundException
+      Exceptions/                      ← DeserializeJsonIAException
       Helpers/                         ← JsonHelper
       Services/                        ← FileSkillCacheService, ProviderChatClientFactory, SkillsAgentService, ...
       ToolChains/                      ← WebSearchToolChain, ... (una clase por tool)

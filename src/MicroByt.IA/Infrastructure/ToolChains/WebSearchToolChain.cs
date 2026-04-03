@@ -7,7 +7,7 @@ namespace MicroByt.IA.Infrastructure.ToolChains;
 /// <summary>Implementación del tool <c>web_search</c>. Busca información actual en la web.</summary>
 public class WebSearchToolChain : IToolChain
 {
-    public Tool Tool => new()
+    public Tool Tool { get; } = new()
     {
         Name = "web_search",
         Description = "Busca información actual en la web.",
