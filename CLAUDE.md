@@ -69,15 +69,16 @@ src/
       AI/                              ← AIModel, Provider
       AgentSkills/                     ← Skill, Tool
     Application/
-      Interfaces/                      ← ISkillsService, ISkillsAgentService, ...
+      Interfaces/                      ← ISkillsService, ISkillsAgentService, IToolChain, IToolChainRegistry, ...
       Models/                          ← SkillFileCacheEntry, SkillsAgentInput
-      Services/                        ← SkillsService, SkillsAgentService, ...
-      DependencyInjection.cs           ← AddMicrobytIA()
+      Services/                        ← SkillsService, SkillsAgentService, ToolChainRegistry, ...
     Infrastructure/
       Api/OpenAI/                      ← CompletionsRequest, CompletionsResponse
-      Exceptions/                      ← DeserializeJsonIAException
+      Exceptions/                      ← DeserializeJsonIAException, ToolChainNotFoundException
       Helpers/                         ← JsonHelper
       Services/                        ← FileSkillCacheService, ProviderChatClientFactory, ...
+      ToolChains/                      ← WebSearchToolChain, ... (una clase por tool)
+      DependencyInjection.cs           ← AddMicrobytIA()
     API/
       Samples/                         ← SelectSkillsSample
     Program.cs
@@ -98,7 +99,7 @@ Este proyecto sigue **Clean Architecture + DDD** y los principios **SOLID**:
 
 - **Domain/** — objetos de dominio puros (entidades, value objects). Sin dependencias externas.
 - **Application/** — interfaces, modelos y servicios de casos de uso. Depende solo de Domain.
-- **Infrastructure/** — implementaciones concretas (I/O, APIs externas, caché). Depende de Application.
+- **Infrastructure/** — implementaciones concretas (I/O, APIs externas, caché, ToolChains). Depende de Application. Contiene `DependencyInjection.cs` con `AddMicrobytIA()` porque es la única capa que ve todas las demás.
 - **API/** — punto de entrada, samples, controladores. Depende de Application e Infrastructure.
 
 ### SOLID
@@ -139,9 +140,21 @@ public class MyService : IMyService
 }
 ```
 
-**3. Registrar el servicio** en `Application/DependencyInjection.cs`, dentro de `AddMicrobytIA()`:
+**3. Registrar el servicio** en `Infrastructure/DependencyInjection.cs`, dentro de `AddMicrobytIA()`:
 ```csharp
 services.AddScoped<IMyService, MyService>();
 ```
 
 > Nunca dejes un servicio sin su interfaz ni sin su registro en `AddMicrobytIA()`.
+
+### ToolChains
+
+Cada `IToolChain` es la implementación ejecutable de un `Tool`. Para añadir uno nuevo:
+
+1. Crear la clase en `Infrastructure/ToolChains/` implementando `IToolChain`
+2. Registrarla en `Infrastructure/DependencyInjection.cs`:
+```csharp
+services.AddSingleton<IToolChain, MiNuevoToolChain>();
+```
+
+`ToolChainRegistry` recibe `IEnumerable<IToolChain>` y .NET inyecta automáticamente todas las implementaciones registradas.

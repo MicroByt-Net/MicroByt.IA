@@ -1,5 +1,5 @@
 #if SAMPLES
-using MicroByt.IA.Application;
+using MicroByt.IA.Infrastructure;
 using MicroByt.IA.Application.Interfaces;
 using MicroByt.IA.Domain.AI;
 using Microsoft.Extensions.DependencyInjection;

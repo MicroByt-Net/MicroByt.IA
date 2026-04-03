@@ -12,20 +12,4 @@ public class Tool
     /// <summary>JSON Schema que describe los parámetros de entrada que acepta la herramienta.</summary>
     public string JsonSchema { get; init; } = string.Empty;
 
-    // TODO: clase temporal
-    public static readonly Tool WebSearch = new()
-    {
-        Name = "web_search",
-        Description = "Busca información actual en la web.",
-        JsonSchema = """
-            {
-              "type": "object",
-              "properties": {
-                "query": { "type": "string", "description": "Consulta de búsqueda" },
-                "top_k": { "type": "integer", "minimum": 1, "maximum": 20 }
-              },
-              "required": ["query"]
-            }
-            """,
-    };
 }
