@@ -1,18 +1,15 @@
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using MicroByt.IA.Application.Interfaces;
 using MicroByt.IA.Domain.AgentSkills;
-using Microsoft.Extensions.Configuration;
+using MicroByt.IA.Infrastructure.Interfaces;
 
 namespace MicroByt.IA.Infrastructure.ToolChains;
 
 /// <summary>Implementación del tool <c>web_search</c> usando la API de Tavily.</summary>
-public class WebSearchToolChain(IConfiguration configuration) : IToolChain
+public class WebSearchToolChain(ITavilyClient tavilyClient) : IToolChain
 {
-    private static readonly HttpClient _http = new();
-    private readonly string _apiKey = configuration["ApiKeys:Tavily"] ?? string.Empty;
-    private const string TavilyEndpoint = "https://api.tavily.com/search";
+    private readonly ITavilyClient _tavilyClient = tavilyClient;
 
     public Tool Tool { get; } = new()
     {
@@ -35,18 +32,8 @@ public class WebSearchToolChain(IConfiguration configuration) : IToolChain
         var query = arguments.RootElement.GetProperty("query").GetString()!;
         var topK = arguments.RootElement.TryGetProperty("top_k", out var tk) ? tk.GetInt32() : 5;
 
-        var payload = new
-        {
-            api_key = _apiKey,
-            query,
-            max_results = topK,
-        };
-
-        using var response = await _http.PostAsJsonAsync(TavilyEndpoint, payload, ct);
-        response.EnsureSuccessStatusCode();
-
-        using var doc = await response.Content.ReadFromJsonAsync<JsonDocument>(cancellationToken: ct);
-        return FormatResponse(doc!);
+        using var doc = await _tavilyClient.SearchAsync(query, topK, ct);
+        return FormatResponse(doc);
     }
 
     private static string FormatResponse(JsonDocument doc)
