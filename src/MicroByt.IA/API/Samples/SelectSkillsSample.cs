@@ -39,7 +39,8 @@ public static class SelectSkillsSample
 
         string[] tasks =
         [
-            "Busca en la web comparativas entre Unity IAP y RevenueCat y mándame un resumen claro con pros y contras.",
+            //"Busca en la web comparativas entre Unity IAP y RevenueCat y mándame un resumen claro con pros y contras.",
+            "A partir de ahora recuerda que prefiero respuestas técnicas, breves y en español."
         ];
 
         using var scope = host.Services.CreateScope();
